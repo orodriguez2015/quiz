@@ -1,9 +1,11 @@
+// Se importan los diferentes módulos o paquetes
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var partials = require('express-partials');
 
 var routes = require('./routes/index');
 
@@ -12,6 +14,11 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+// Se instala el middleware express-partials. Se instala después de definir
+// el mecanismo de vistas y ejs de express-partials, sino no funciona.
+// hay que crear en views, un archivo layout.ejs con la estructura que tendrán 
+// todas las páginas
+app.use(partials());
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -22,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+
 
 
 // catch 404 and forward to error handler

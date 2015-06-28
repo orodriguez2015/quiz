@@ -1,0 +1,74 @@
+/** Hoja de estilo wide.css para el caso de pantalla ancha **/
+/** Sobreescribe los estilos de style.css para mover el menú a la izquierda de la pantalla */
+body {
+    background:  #999;   
+}
+
+#page-wrap: after {
+    content: "Wide Layout";   
+}
+
+nav {
+    float:left;
+    width:15%;
+    height: 200px;
+    text-align: left;
+}
+
+nav span {
+    margin: 0px 100px 0px 0px;
+}
+
+section{
+    float:right;
+    width:80%;
+    height: 200px;
+}
+
+footer{
+    clear:both;
+    display: block;
+}
+
+/*
+
+ul #itemMenu{
+		list-style-type: none;
+		margin: 0px;
+		padding: 0px;
+		border-top-style: solid;
+		border-right-style: solid;
+		border-left-style: solid;
+		border-top-color: #000;
+		border-left-color: #000;
+		border-right-color: #000;
+		border-bottom-color: #000;
+		border-width: 1px; 
+        text-align: left
+}
+
+.menu {
+		font-family: Arial, Verdana, Helvetica;
+		font-size: 0.9em;
+		border-bottom-color: #CCC;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		text-decoration: none;
+		background-color: #EAEAEA;
+		color: #000000;
+		display: block;
+		padding: 7px;
+
+	}
+
+
+
+.menu :hover{
+		background-color: #666;
+		color: #FFF;
+		border-right-style: solid;
+		border-right-width: 5px;
+		border-right-color: blue;
+
+	}
+*/

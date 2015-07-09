@@ -1,3 +1,5 @@
+var model = require('../models/models.js');
+
 /**
   * Función que recibe la petición para mostrar una determinada pregunta
   * @param: req: Objeto request
@@ -8,6 +10,8 @@ exports.question= function(req,res){
     // como parámetro
     res.render('quizes/question',{pregunta:'¿Cuál es la capital de Italia?'});
 };
+
+
 
 
 /**
@@ -21,6 +25,19 @@ exports.answer= function(req,res){
     // En función de esto se pasa el parámetro respuesta con el valor que corresponda
     // a la vista views/quizes/answer.ejs
     
+    // El objeto quiz se ha exportado en models.js. Se puede obtener los elementos de la
+    // BBDD
+    model.Quiz.findAll().then(function(quiz){
+        // Si se ha podido recuperar los elementos de la BBDD, nos quedamos con el primero
+        
+        if(req.query.respuesta!=undefined && req.query.respuesta.toUpperCase()==quiz[0].respuesta.toUpperCase()){
+            res.render('quizes/answer',{respuesta:'correcta'});    
+        } else {
+            res.render('quizes/answer',{respuesta:'incorrecta'});
+        }
+    });
+    
+    /** original
     // La respuesta del usuario se obtiene de la request, y del objeto query porque
     // la petición se envía por GET desde el formulario
     if(req.query.respuesta!=undefined && req.query.respuesta.toUpperCase()=='ROMA') {
@@ -29,5 +46,5 @@ exports.answer= function(req,res){
     else {
         res.render('quizes/answer',{respuesta:'incorrecta'});
     }
-    
+    */
 };

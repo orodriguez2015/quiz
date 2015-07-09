@@ -75,8 +75,19 @@ sequelize.sync().then(function(data) {
        console.log("Número de elementos : " + count);
         if(count==0) {
             
-            Quiz.create( {  pregunta: 'Capital de Italia',
+            Quiz.create( {  pregunta: '¿ Cuál es la capital de Italia ?',
                             respuesta: 'Roma'}).
+            then(function(data){
+                console.log("TABLA QUIZ INICIALIZADA");    
+            }).
+            catch(function(err){
+               console.log("ERROR AL CREAR LA TABLA QUIZ"); 
+            });
+
+
+
+            Quiz.create( {  pregunta: '¿ Cuál es la capital de Portugal ?',
+                            respuesta: 'Lisboa'}).
             then(function(data){
                 console.log("TABLA QUIZ INICIALIZADA");    
             }).

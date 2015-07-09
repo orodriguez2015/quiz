@@ -13,8 +13,13 @@ router.get('/author',function(req,res){
    res.render('author') 
 });
 
-router.get('/quizes/question',quizController.question);
-router.get('/quizes/answer',quizController.answer);
+
+// Recuera todas las preguntas para listarlas
+router.get('/quizes',quizController.index);
+// Muestra una determinada pregunta
+router.get('/quizes/:quizId(\\d+)',quizController.show);
+// Comprueba si la respuesta a la pregunta con id "quizId" es la correcta
+router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
 
 
 

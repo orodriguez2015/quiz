@@ -14,6 +14,9 @@ router.get('/author',function(req,res){
 });
 
 
+// Autoload de comandos con :quizId. Permite gestionar errores
+router.param('quizId',quizController.load);
+
 // Recuera todas las preguntas para listarlas
 router.get('/quizes',quizController.index);
 // Muestra una determinada pregunta

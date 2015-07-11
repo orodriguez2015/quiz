@@ -24,7 +24,7 @@ exports.index= function(req,res){
 
     }
 
-    model.Quiz.findAll({where: ["pregunta like ?",search]}).then(function(quizes){
+    model.Quiz.findAll({where: ["upper(pregunta) like ?",search.toUpperCase()], order:[['pregunta', 'ASC']]}).then(function(quizes){
       
       console.log("Numero de preguntas recuperadas: " + quizes.length);
       res.render('quizes/index',{quizes:quizes});

@@ -10,11 +10,26 @@ var model = require('../models/models.js');
   */
 exports.index= function(req,res){
 
-    model.Quiz.findAll().then(function(quizes){
+    console.log("Buscando: " + req.query.search);
+
+    // Se implementa un buscador
+    var search = '%'
+
+    // Si no existe un valor para el campo search, entonces se le asigna un 
+    // valor por defecto, para que se busquen todas las preguntas
+    if(req.query.search!=undefined && req.query.search.length>0){
+      var resultado = req.query.search.replace('','%');
+      console.log("buscar resultado: " + resultado);
+      search = '%' + resultado + '%';
+
+    }
+
+    model.Quiz.findAll({where: ["pregunta like ?",search]}).then(function(quizes){
+      
       console.log("Numero de preguntas recuperadas: " + quizes.length);
       res.render('quizes/index',{quizes:quizes});
 
-    });
+    }); 
 };
 
 

@@ -18,7 +18,7 @@ exports.index= function(req,res){
     // Si no existe un valor para el campo search, entonces se le asigna un 
     // valor por defecto, para que se busquen todas las preguntas
     if(req.query.search!=undefined && req.query.search.length>0){
-      var resultado = req.query.search.replace('','%');
+      var resultado = req.query.search.replace(' ','%');
       console.log("buscar resultado: " + resultado);
       search = '%' + resultado + '%';
 

@@ -17,13 +17,16 @@ router.get('/author',function(req,res){
 // Autoload de comandos con :quizId. Permite gestionar errores
 router.param('quizId',quizController.load);
 
-// Recuera todas las preguntas para listarlas
+// Recupera todas las preguntas para listarlas
 router.get('/quizes',quizController.index);
+
+// Se carga el formulario que permite dar de alta nuevas preguntas
+router.get('/quizes/new',quizController.new);
 // Muestra una determinada pregunta
 router.get('/quizes/:quizId(\\d+)',quizController.show);
 // Comprueba si la respuesta a la pregunta con id "quizId" es la correcta
 router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
-
-
+// Alta de una nueva pregunta
+router.post("/quizes/create",quizController.create);
 
 module.exports = router;

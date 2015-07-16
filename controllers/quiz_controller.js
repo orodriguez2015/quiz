@@ -94,3 +94,45 @@ exports.answer= function(req,res){
     res.render('quizes/answer',{respuesta:_respuesta});
     
 };
+
+/**
+  * GET /quizes/new
+  * Función del controlador que es llamada para renderizar la vista,
+  * que muestra el formulario de alta de una nueva pregunta 
+  * @param req: Objeto request
+  * @param res: Objeto response
+  */
+exports.new = function(req,res){
+  var quiz = model.Quiz.build({pregunta: 'Pregunta', respuesta: 'Respuesta'});
+  res.render('quizes/new',{quiz:quiz});
+
+};
+
+
+/**
+  * GET /quizes/new
+  * Función del controlador que es llamada para renderizar la vista,
+  * que muestra el formulario de alta de una nueva pregunta 
+  * @param req: Objeto request
+  * @param res: Objeto response
+  */
+exports.create = function(req,res){
+  console.log("Ejecución función create en quiz_controller")
+  // Se construye el objeto persistente a partir del objeto utilizado para 
+  // crear el formulario
+
+  console.log("pregunta: " + req.body.quiz.pregunta);
+  console.log("respuesta: " + req.body.quiz.respuesta);
+
+  var quiz = model.Quiz.build(req.body.quiz);
+
+  // Se almacena el objeto pregunta. Se indica en el atributo fields, el array con
+  // los campos que se van a almacenar
+  quiz.save({fields:["pregunta","respuesta"]}).then(function(){
+      console.log("Pregunta dada de alta");
+      res.redirect('/quizes');
+  }).catch(function(error){
+      console.log("Error al dar de alta la pregunta: " + error.status);
+  });
+};
+

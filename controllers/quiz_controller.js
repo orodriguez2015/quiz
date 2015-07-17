@@ -140,6 +140,7 @@ exports.create = function(req,res){
         res.redirect('/quizes');
       }).catch(function(error){
         console.log("Error al dar de alta la pregunta: " + error.message);
+        next(err);
       });
     }
   });
@@ -206,7 +207,32 @@ exports.update = function(req,res){
           res.redirect('/quizes');
         }).catch(function(err){
             console.log("ERROR al editar una pregunta: " + err.message);
+            next(err);
         });
       }
   });
+};
+
+
+
+/**
+  * DELETE /quizes/:quizId
+  * Función que elimina de la base de datos, una determinada pregunta
+  * @param: req: Objeto request
+  * @param: res: Objeto response
+  */
+exports.destroy = function(req,res){
+  // La petición ha pasado por la función load(), por tanto, sólo se recupera el objeto
+  var quiz = req.quiz; 
+        
+  // Sino hay error, entonces se procede a llamar al método save() de quiz
+  // Se indica además los campos que hay que almacenar. Como quiz se ha recupera
+  // de BD en load() con su id, el método save() en lugar de dar de alta, actualiza.
+  quiz.destroy().then(function(){
+    res.redirect('/quizes');
+  }).catch(function(err){
+      console.log("ERROR al editar una pregunta: " + err.message);
+      next(err);
+  });
+   
 };

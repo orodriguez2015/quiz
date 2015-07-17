@@ -35,5 +35,8 @@ router.get('/quizes/:quizId(\\d+)/edit',quizController.edit);
 // Procesa la edición/modificación de una pregunta
 router.put('/quizes/:quizId(\\d+)',quizController.update);
 
+// Procesa el borrado de una determinada pregunta
+router.delete('/quizes/:quizId(\\d+)',quizController.destroy);
+
 
 module.exports = router;

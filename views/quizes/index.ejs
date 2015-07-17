@@ -16,23 +16,6 @@
 	<a href="/quizes/new" alt="Crear una nueva pregunta" title="Crear una nueva pregunta">Crear pregunta</a>
 </p>
 
-
-<!--
-<ul>
-<% for(var i=0;i<quizes.length;i++){ %>
-	
-	<li><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a> &nbsp;
-	<a href="/quizes/<%=quizes[i].id %>/edit" border="0" alt="Editar la pregunta" title="Editar la pregunta">
-	<button>Editar</button></a></li>
-
-	
-
-<%	
-}
-%>
-</ul>
--->
-
 <table border="0" cellspacing="4" cellpadding="4">
 <% for(var i=0;i<quizes.length;i++){ %>
 	<tr>
@@ -40,6 +23,15 @@
 		<td><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a> </td>
 		<td><a href="/quizes/<%=quizes[i].id %>/edit" border="0" alt="Editar la pregunta" title="Editar la pregunta">
 	<button>Editar</button></a>
+		</td>
+		<td>
+		<!-- BORRADO DE LA PREGUNTA POR POST, AUNQUE SE HACE UN METHOD-OVERRIDE, Y SE CAMBIA POR DELETE -->
+
+		<form method="POST" action="/quizes/<%=quizes[i].id%>?_method=DELETE">
+			
+			<button type="submit" onClick="return confirm('Eliminar <%=quizes[i].pregunta%> ');">Eliminar</button>
+			
+		</form>
 		</td>
 	</tr>	
 <%	

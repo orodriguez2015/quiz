@@ -1,0 +1,11 @@
+Añadir pregunta:
+<p>
+<!-- HTML5 no permite el envio de formularios por PUT, sólo por POST o por GET.
+De ahí que se haga _method=PUT, para que express haga el cambio de POST por PUT
+-->
+<form method="POST" action="/quizes/<%=quiz.id%>?_method=PUT">
+<%  include _form.ejs %>
+
+</form>
+
+</p>

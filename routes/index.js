@@ -29,4 +29,11 @@ router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
 // Alta de una nueva pregunta
 router.post("/quizes/create",quizController.create);
 
+// Carga el formulario de edición de una pregunta
+router.get('/quizes/:quizId(\\d+)/edit',quizController.edit);
+
+// Procesa la edición/modificación de una pregunta
+router.put('/quizes/:quizId(\\d+)',quizController.update);
+
+
 module.exports = router;

@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials');
+var methodOverride = require('method-override');
 
 var routes = require('./routes/index');
 
@@ -25,15 +26,21 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
-// Se elimina el extend false para poder enviar arrays en los posts
+// Se elimina el extend false para poder enviar arrays a través de POST
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+// Se instala el middleware y se indica el nombre utilizado para 
+// encapsular el método POST por el que sea, en este caso suele ser por PUT.
+// HTML5 no permite el envio de formularios por PUT, sólo por POST o por GET.
+// De ahí que se haga esto
+app.use(methodOverride('_method'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 
 
-
+    
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

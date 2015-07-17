@@ -139,7 +139,7 @@ exports.create = function(req,res){
         console.log("Pregunta dada de alta");
         res.redirect('/quizes');
       }).catch(function(error){
-        console.log("Error al dar de alta la pregunta: " + error.status);
+        console.log("Error al dar de alta la pregunta: " + error.message);
       });
     }
   });
@@ -156,3 +156,57 @@ exports.create = function(req,res){
       });
 */
 }
+
+
+
+
+/**
+  * GET /quizes/:quizId/edit
+  * Función que recibe la petición para editar una determinada pregunta.
+  * Como la URL para cargar el formulario tiene un parámetro quizId en router/index.js,
+  * pasa por el autoload (función load), por tanto, ya se recupera el quiz de BD y se 
+  * carga en la request
+  * @param: req: Objeto request
+  * @param: res: Objeto response
+  */
+exports.edit = function(req,res){
+  // Se renderiza el formulario de edición con el quiz alojado en el req, por 
+  // la función load que lo ha carga de BD. La lista de errores se pasa vacía
+  res.render('quizes/edit',{quiz:req.quiz,errors:[]});
+
+};
+
+/**
+  * PUT /quizes/:quizId
+  * Función que graba en base de datos la modificación de una determinada pregunta
+  * @param: req: Objeto request
+  * @param: res: Objeto response
+  */
+exports.update = function(req,res){
+  // La petición ha pasado por la función load(), por tanto, sólo se recupera el objeto
+  var quiz = req.quiz; 
+  
+  // El objeto ORM quiz, se le actualizan las propiedades preuguntas y respuesta, con
+  // lo que venga del formulario
+  quiz.pregunta = req.body.quiz.pregunta;
+  quiz.respuesta = req.body.quiz.respuesta;
+
+
+  quiz.validate().then(function(err){
+      if(err) {
+        // Si se ha producido un error, se redirige al formulario de edición, pasando
+        // los errores
+        res.render('quizes/edit',{quiz:quiz,errors:err.errors}) ;      
+      }else {
+        
+        // Sino hay error, entonces se procede a llamar al método save() de quiz
+        // Se indica además los campos que hay que almacenar. Como quiz se ha recupera
+        // de BD en load() con su id, el método save() en lugar de dar de alta, actualiza.
+        quiz.save({fields:["pregunta","respuesta"]}).then(function(){
+          res.redirect('/quizes');
+        }).catch(function(err){
+            console.log("ERROR al editar una pregunta: " + err.message);
+        });
+      }
+  });
+};

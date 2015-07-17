@@ -17,12 +17,31 @@
 </p>
 
 
-<table border=0>
+<!--
+<ul>
+<% for(var i=0;i<quizes.length;i++){ %>
+	
+	<li><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a> &nbsp;
+	<a href="/quizes/<%=quizes[i].id %>/edit" border="0" alt="Editar la pregunta" title="Editar la pregunta">
+	<button>Editar</button></a></li>
+
+	
+
+<%	
+}
+%>
+</ul>
+-->
+
+<table border="0" cellspacing="4" cellpadding="4">
 <% for(var i=0;i<quizes.length;i++){ %>
 	<tr>
-		<td><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
-	</tr>
-
+		<td width="5px">&nbsp;</td>
+		<td><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a> </td>
+		<td><a href="/quizes/<%=quizes[i].id %>/edit" border="0" alt="Editar la pregunta" title="Editar la pregunta">
+	<button>Editar</button></a>
+		</td>
+	</tr>	
 <%	
 }
 %>

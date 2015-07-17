@@ -19,6 +19,7 @@ body {
 #page-wrap {
     margin: 2% auto;
     color:black;
+    border: 2px solid #000;
 }
 
 #page-wrap > .main {
@@ -42,6 +43,11 @@ footer{
 
 nav span {
     margin: 0px 10px 0px 0px;
+    height:100%;
 }
 
+#ErrorMsgs {
+    color: #f61;
+    font-size: smaller;
+}
 

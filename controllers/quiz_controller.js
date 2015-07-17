@@ -27,7 +27,7 @@ exports.index= function(req,res){
     model.Quiz.findAll({where: ["upper(pregunta) like ?",search.toUpperCase()], order:[['pregunta', 'ASC']]}).then(function(quizes){
       
       console.log("Numero de preguntas recuperadas: " + quizes.length);
-      res.render('quizes/index',{quizes:quizes});
+      res.render('quizes/index',{quizes:quizes,errors:[]});
 
     }); 
 };
@@ -69,7 +69,7 @@ exports.load = function(req,res,next,quizId){
   */
 exports.show = function(req,res){
 
-  res.render('quizes/show',{quiz:req.quiz});
+  res.render('quizes/show',{quiz:req.quiz,errors:[]});
 
 };
 
@@ -91,7 +91,7 @@ exports.answer= function(req,res){
         _respuesta = 'correcta';
     }
 
-    res.render('quizes/answer',{respuesta:_respuesta});
+    res.render('quizes/answer',{respuesta:_respuesta,errors:[]});
     
 };
 
@@ -103,8 +103,8 @@ exports.answer= function(req,res){
   * @param res: Objeto response
   */
 exports.new = function(req,res){
-  var quiz = model.Quiz.build({pregunta: 'Pregunta', respuesta: 'Respuesta'});
-  res.render('quizes/new',{quiz:quiz});
+  var quiz = model.Quiz.build({pregunta: '', respuesta: ''});
+  res.render('quizes/new',{quiz:quiz,errors:[]});
 
 };
 
@@ -117,7 +117,7 @@ exports.new = function(req,res){
   * @param res: Objeto response
   */
 exports.create = function(req,res){
-  console.log("Ejecución función create en quiz_controller")
+  console.log("Ejecución función create en quiz_controller");
   // Se construye el objeto persistente a partir del objeto utilizado para 
   // crear el formulario
 
@@ -126,13 +126,33 @@ exports.create = function(req,res){
 
   var quiz = model.Quiz.build(req.body.quiz);
 
-  // Se almacena el objeto pregunta. Se indica en el atributo fields, el array con
-  // los campos que se van a almacenar
-  quiz.save({fields:["pregunta","respuesta"]}).then(function(){
-      console.log("Pregunta dada de alta");
-      res.redirect('/quizes');
-  }).catch(function(error){
-      console.log("Error al dar de alta la pregunta: " + error.status);
-  });
-};
 
+  quiz.validate().then(function(err){
+
+    if(err) {
+      res.render("quizes/new",{quiz:quiz,errors: err.errors});
+    }else{
+
+      // Se almacena el objeto pregunta. Se indica en el atributo fields, el array con
+      // los campos que se van a almacenar
+      quiz.save({fields:["pregunta","respuesta"]}).then(function(){
+        console.log("Pregunta dada de alta");
+        res.redirect('/quizes');
+      }).catch(function(error){
+        console.log("Error al dar de alta la pregunta: " + error.status);
+      });
+    }
+  });
+
+
+  /*
+ // Se almacena el objeto pregunta. Se indica en el atributo fields, el array con
+      // los campos que se van a almacenar
+      quiz.save({fields:["pregunta","respuesta"]}).then(function(){
+        console.log("Pregunta dada de alta");
+        res.redirect('/quizes');
+      }).catch(function(error){
+        console.log("Error al dar de alta la pregunta: " + error.status);
+      });
+*/
+}

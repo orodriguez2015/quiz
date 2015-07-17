@@ -5,9 +5,24 @@
                       de base de datos, con los que trabaja sequelize.js
   */                      
 module.exports = function(sequelize,DataTypes){
+
+    // Al definir los atributos de la tabla QUIZ en el objeto ORM que lo representa,
+    // se pueden introducir validaciones en sus campos
+    return sequelize.define('Quiz',
+            { pregunta:  { type: DataTypes.STRING, 
+                           validate: {notEmpty: { msg:'Falta la pregunta'}}
+                         },
+              respuesta: { type: DataTypes.STRING, 
+                          validate: { notEmpty: { msg: 'Falta la respuesta'}}
+              }
+            }
+    );  
+
+    /** original
     return sequelize.define('Quiz',
             { pregunta: DataTypes.STRING,
               respuesta: DataTypes.STRING
             }
     );  
+   */
 };

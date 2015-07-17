@@ -32,7 +32,34 @@
    
         </nav>
       
+
         <section class="main" id="s1">
+          <!-- Si hay errores, se muestran. Esto implica que siempre hay 
+              que pasar un array de errores en todos los res.render de página
+            por medio de EJS -->
+        <%
+          if(errors.length>0){
+
+        %> 
+
+        <span id="ErrorMsgs">
+          Corregir los siguientes errores:<br>
+          <ul>
+          <%
+            for(var i=0;i<errors.length;i++){
+          %>    
+              <li><%= errors[i].message %></li>
+
+          <%
+            }
+          %>  
+        </ul>
+        </span>   
+        <br>
+        <%
+          }// if
+        %>  
+
             <%- body %>  
       
         </section>  

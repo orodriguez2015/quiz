@@ -4,5 +4,20 @@
 <label for="resp" class="rem">Respuesta:</label>
 <input type="text" id="resp" name="quiz[respuesta]" size="25" value="<%=quiz.respuesta%>" placeholder="Introduzca la respuesta"/>
 </p>
+
+<p>
+<label for="resp" class="rem">Categoría:</label>
+
+<select name="quiz[categoria]">
+<option name="otro" value="otro" <% if(quiz.categoria=='otro'){ %> <%= "selected" %> <% } %>>Otro</option>
+
+	<option name="humanidades" value="humanidades" <% if(quiz.categoria=='humanidades'){ %> <%= "selected" %> <% } %>>Humanidades</option>
+	<option name="tecnologia" value="tecnologia" <% if(quiz.categoria=='tecnologia'){ %> <%= "selected" %> <% } %>>Tecnología</option>
+	<option name="ocio" value="ocio" <% if(quiz.categoria=='ocio'){ %> <%= "selected" %> <% } %>>Ocio</option>
+	<option name="ciencia" value="ciencia" <% if(quiz.categoria=='ciencia'){ %> <%= "selected" %> <% } %>>Ciencia</option>
+	<option name="tecnologia" value="tecnologia" <% if(quiz.categoria=='tecnologia'){ %> <%= "selected" %> <% } %>>Tecnología</option>
+	
+</select>
+</p>
 <a href="/quizes"><button type="button">Cancelar</button></a>
 <input type="submit" value="Guardar">

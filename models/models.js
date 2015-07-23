@@ -76,7 +76,8 @@ sequelize.sync().then(function(data) {
         if(count==0) {
             
             Quiz.create( {  pregunta: '¿ Cuál es la capital de Italia ?',
-                            respuesta: 'Roma'}).
+                            respuesta: 'Roma',
+                            categoria: 'geografia'}).
             then(function(data){
                 console.log("TABLA QUIZ INICIALIZADA");    
             }).
@@ -87,7 +88,8 @@ sequelize.sync().then(function(data) {
 
 
             Quiz.create( {  pregunta: '¿ Cuál es la capital de Portugal ?',
-                            respuesta: 'Lisboa'}).
+                            respuesta: 'Lisboa',
+                            categoria: 'geografia'}).
             then(function(data){
                 console.log("TABLA QUIZ INICIALIZADA");    
             }).

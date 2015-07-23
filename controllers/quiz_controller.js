@@ -123,6 +123,7 @@ exports.create = function(req,res){
 
   console.log("pregunta: " + req.body.quiz.pregunta);
   console.log("respuesta: " + req.body.quiz.respuesta);
+  console.log("categoria: " + req.body.quiz.categoria);
 
   var quiz = model.Quiz.build(req.body.quiz);
 
@@ -135,7 +136,7 @@ exports.create = function(req,res){
 
       // Se almacena el objeto pregunta. Se indica en el atributo fields, el array con
       // los campos que se van a almacenar
-      quiz.save({fields:["pregunta","respuesta"]}).then(function(){
+      quiz.save({fields:["pregunta","respuesta","categoria"]}).then(function(){
         console.log("Pregunta dada de alta");
         res.redirect('/quizes');
       }).catch(function(error){
@@ -144,18 +145,6 @@ exports.create = function(req,res){
       });
     }
   });
-
-
-  /*
- // Se almacena el objeto pregunta. Se indica en el atributo fields, el array con
-      // los campos que se van a almacenar
-      quiz.save({fields:["pregunta","respuesta"]}).then(function(){
-        console.log("Pregunta dada de alta");
-        res.redirect('/quizes');
-      }).catch(function(error){
-        console.log("Error al dar de alta la pregunta: " + error.status);
-      });
-*/
 }
 
 
@@ -187,14 +176,17 @@ exports.update = function(req,res){
   // La petición ha pasado por la función load(), por tanto, sólo se recupera el objeto
   var quiz = req.quiz; 
   
-  // El objeto ORM quiz, se le actualizan las propiedades preuguntas y respuesta, con
-  // lo que venga del formulario
-  quiz.pregunta = req.body.quiz.pregunta;
+  // El objeto ORM quiz, se le actualizan las propiedades pregunta,respuesta y categoria, 
+  //con lo que venga del formulario, del objeto quiz que representa a cada uno de los 
+  // elementos del formulario
+  quiz.pregunta  = req.body.quiz.pregunta;
   quiz.respuesta = req.body.quiz.respuesta;
-
+  quiz.categoria = req.body.quiz.categoria;
 
   quiz.validate().then(function(err){
       if(err) {
+
+        console.log("quiz_controller. error: "  + err.errors);
         // Si se ha producido un error, se redirige al formulario de edición, pasando
         // los errores
         res.render('quizes/edit',{quiz:quiz,errors:err.errors}) ;      
@@ -203,7 +195,7 @@ exports.update = function(req,res){
         // Sino hay error, entonces se procede a llamar al método save() de quiz
         // Se indica además los campos que hay que almacenar. Como quiz se ha recupera
         // de BD en load() con su id, el método save() en lugar de dar de alta, actualiza.
-        quiz.save({fields:["pregunta","respuesta"]}).then(function(){
+        quiz.save({fields:["pregunta","respuesta","categoria"]}).then(function(){
           res.redirect('/quizes');
         }).catch(function(err){
             console.log("ERROR al editar una pregunta: " + err.message);

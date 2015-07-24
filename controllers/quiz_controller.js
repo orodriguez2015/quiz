@@ -40,11 +40,21 @@ exports.index= function(req,res){
    * se pasa el control al middleware que corresponde, en caso contrario, se pasa el 
    * control al Middleware de errores de express */
 exports.load = function(req,res,next,quizId){
-
-  model.Quiz.find(quizId).then(function(quiz){
+  console.log("Petición enviada a quiz_controller.load()");
+  //model.Quiz.find(quizId).then(function(quiz){
+    // la propiedad include, solicita que al recuperar la pregunta de id "quizId",
+    // se recuperen también los comentarios asociados a la pregunta, a través de la
+    // relación 1 a N
+    model.Quiz.find(
+    {
+      where: {id: Number(quizId)},
+      include: [{model:model.Comment}]
+    }).then(function(quiz){
     if(quiz){ 
       // Se ha recuperado la pregunta, con next() se pasa el control al MW
       // que corresponda según la petición realizada en la URL
+
+      console.log("Numero de comentarios recuperadas: " + quiz.Comments.length);
       req.quiz = quiz;
       next();
     }else{

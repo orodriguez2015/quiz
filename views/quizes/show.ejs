@@ -4,3 +4,29 @@
     <input type="text" name="respuesta" id="respuesta" size="30" placeholder="Introduzca la respuesta">
     <input type="submit" value="Enviar">
 </form>
+
+<p>
+	<a href="/quizes/<%=quiz.id%>/comments/new">Añadir comentario</a>
+</p>
+
+
+<% 
+	console.log("Número de comentarios: " + quiz.Comments.length)
+	if(quiz.Comments!=undefined && quiz.Comments.length>=1) {
+
+%>
+	<p>
+		<!-- Lista de comentarios de la pregunta -->
+		Comentarios:
+	</p>
+
+	<p>
+
+<%		for(var i=0;i<quiz.Comments.length;i++) { %>
+
+		<p> - <%=quiz.Comments[i].texto %> </p>
+<% 
+		} // for
+  	}// if
+%>
+	</p>

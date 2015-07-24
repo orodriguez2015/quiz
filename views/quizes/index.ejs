@@ -21,6 +21,8 @@
 	<tr>
 		<td width="5px">&nbsp;</td>
 		<td><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a> </td>
+		<td><script type="text/javascript">document.write(primeraLetraMayusculas('<%=quizes[i].categoria%>'));
+			</script>
 		<td><a href="/quizes/<%=quizes[i].id %>/edit" border="0" alt="Editar la pregunta" title="Editar la pregunta">
 	<button>Editar</button></a>
 		</td>

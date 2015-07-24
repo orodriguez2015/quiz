@@ -55,11 +55,19 @@ var sequelize  = new Sequelize(DB_name, user, pwd,
 // Se importa la definición de la tabla quiz del archivo quiz.js
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 
+// Se importa la definición de la tabla comment de la base de datos
+var Comment = sequelize.import(path.join(__dirname,'comment'));
+
+// Se define la relación 1 a N, entre la tabla "quiz" y "comment"
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+
 // Se exporta la definición de la tabla quiz, para que se pueda utilizar donde sea preciso,
 // por ejemplo, en los controladores de la aplicación
 exports.Quiz = Quiz;
-
-
+// Se exporta la definición de la tabla Comment
+exports.Comment = Comment;
 
 /** 
   * Esta llamada crea e inicializa la base de datos quiz.sqllite.

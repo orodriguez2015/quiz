@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
-// Se precisa del controlador de quiz
+// Se importa el controlador de preguntas
 var quizController = require('../controllers/quiz_controller');
+// Se importa el controlador de comentarios
+var commentController = require('../controllers/comment_controller');
 
 
 router.get('/', function(req, res) {
@@ -37,6 +39,12 @@ router.put('/quizes/:quizId(\\d+)',quizController.update);
 
 // Procesa el borrado de una determinada pregunta
 router.delete('/quizes/:quizId(\\d+)',quizController.destroy);
+
+
+// Muestra el formulario de creación de un nuevo comentario para una determinada pregunta
+router.get('/quizes/:quizId(\\d+)/comments/new',commentController.new);
+// Procesa una petición POST de grabación de una nuevo comentario para una determinada pregunta
+router.post('/quizes/:quizId(\\d+)/comments',commentController.create);
 
 
 module.exports = router;

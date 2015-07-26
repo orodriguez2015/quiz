@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 
@@ -28,6 +29,10 @@ app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 // Se elimina el extend false para poder enviar arrays a través de POST
 app.use(bodyParser.urlencoded());
+// Se indica la semilla para cifrar la cookie
+app.use(cookieParser('Quiz-2015'));
+// Se instala el MW de express-session
+app.use(session());
 app.use(cookieParser());
 // Se instala el middleware y se indica el nombre utilizado para 
 // encapsular el método POST por el que sea, en este caso suele ser por PUT.
@@ -37,11 +42,32 @@ app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// Helpers dinamicos:
+app.use(function(req, res, next) {
+    console.log('Comprobación de sesiones');
+  // si no existe lo inicializa
+  if (!req.session.redir) {
+    req.session.redir = '/';
+  }
+
+  console.log("path desde el que llega la petición: " + req.path);
+  // guardar path en session.redir para despues de login
+  if (!req.path.match(/\/login|\/logout|\/user/)) {
+    req.session.redir = req.path;
+  }
+
+  // Hacer visible req.session en las vistas
+  res.locals.session = req.session;
+  next();
+});
+
 app.use('/', routes);
 
 
     
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler. Esta función se invoca 
+// sólo si desde routes/index.js, no se resuelve un patch
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;

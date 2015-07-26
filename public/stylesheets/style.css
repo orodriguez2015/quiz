@@ -51,3 +51,6 @@ nav span {
     font-size: smaller;
 }
 
+.main > .derecha{
+    text-align: right;
+}

@@ -1,4 +1,4 @@
-function primeraLetraMayusculas(palabra) {
+function primeraLetraMayusculas(palabra) {	
   var salida = '';
 
   if(palabra!=null && palabra!=undefined && palabra.length>=1){

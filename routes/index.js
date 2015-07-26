@@ -5,6 +5,8 @@ var quizController = require('../controllers/quiz_controller');
 // Se importa el controlador de comentarios
 var commentController = require('../controllers/comment_controller');
 
+var sessionController = require('../controllers/session_controller');
+
 
 router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz',errors:[]});
@@ -45,6 +47,13 @@ router.delete('/quizes/:quizId(\\d+)',quizController.destroy);
 router.get('/quizes/:quizId(\\d+)/comments/new',commentController.new);
 // Procesa una petición POST de grabación de una nuevo comentario para una determinada pregunta
 router.post('/quizes/:quizId(\\d+)/comments',commentController.create);
+
+// Petición para procesar la petición GET que solicita el formulario delogin
+router.get('/login',sessionController.new);
+// Petición para procesar la petición POST que crea la sesión de usuario
+router.post('/login',sessionController.create);
+// Petición para procesar la petición POST que cierra la sesión de usuario
+router.get('/logout',sessionController.destroy);
 
 
 module.exports = router;

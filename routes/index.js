@@ -25,22 +25,22 @@ router.param('quizId',quizController.load);
 router.get('/quizes',quizController.index);
 
 // Se carga el formulario que permite dar de alta nuevas preguntas
-router.get('/quizes/new',quizController.new);
+router.get('/quizes/new',sessionController.loginRequired,quizController.new);
 // Muestra una determinada pregunta
 router.get('/quizes/:quizId(\\d+)',quizController.show);
 // Comprueba si la respuesta a la pregunta con id "quizId" es la correcta
 router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
 // Alta de una nueva pregunta
-router.post("/quizes/create",quizController.create);
+router.post("/quizes/create",sessionController.loginRequired,quizController.create);
 
 // Carga el formulario de edición de una pregunta
-router.get('/quizes/:quizId(\\d+)/edit',quizController.edit);
+router.get('/quizes/:quizId(\\d+)/edit',sessionController.loginRequired,quizController.edit);
 
 // Procesa la edición/modificación de una pregunta
-router.put('/quizes/:quizId(\\d+)',quizController.update);
+router.put('/quizes/:quizId(\\d+)',sessionController.loginRequired,quizController.update);
 
 // Procesa el borrado de una determinada pregunta
-router.delete('/quizes/:quizId(\\d+)',quizController.destroy);
+router.delete('/quizes/:quizId(\\d+)',sessionController.loginRequired,quizController.destroy);
 
 
 // Muestra el formulario de creación de un nuevo comentario para una determinada pregunta

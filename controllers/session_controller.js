@@ -15,7 +15,31 @@ exports.new = function(req,res){
 };
 
 
+/**
+  * Será llamado desde routes/index.js,  para comprobar antes de pasar el control
+  * al método del controlador adecuado para manejar la petición, si la sesión 
+  * del usuario está activa
+  * @param req: Objeto request
+  * @param res: Objeto response
+  * @param next: Objeto next
+  */
+exports.loginRequired = function(req,res,next) { 
+	if(req.session.user) {
+		// Si existe el atributo "user" en la sesión, se pasa el control al siguiente middleware
+		next();  
+	} else {
+		res.redirect("/login");
+	}
+};
 
+
+/**
+  * Comprueba si existe un usuario con login y password. Si existe, almacena
+  * los datos del usuario en la sesión, en caso contrario, se pasa se hace
+  * una redirección a la pantalla de login
+  * @param req: Objeto request
+  * @param res: Objeto response
+  */
 exports.create = function(req,res){
 	console.log("session_controller.create() ====>");
 	var login          = req.body.login;

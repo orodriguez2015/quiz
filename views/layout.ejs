@@ -27,17 +27,18 @@
 
         <header class="main" id="h1">
          
+            <h1>Quiz</h1><h2> El juego de las preguntas</h2>
+
+
+            <!-- Autenticación/Cerrar de sesión -->
           <% if(!session.user) { // Sino se añadido un usuario en la sesión %>
             <span class="derecha" style="text-align:right;"><a href="/login" border="0">Login</a></span>
           <%
             } else { // Se ha añadido un usuario en la sesión %>
             <%=session.user.username%>
             <span class="derecha"><a href="/logout" border="0">[Logout]</a></span>  
-
           <% } %>    
 
-
-            <h1>Quiz</h1><h2> El juego de las preguntas</h2>
         </header>
       
         <nav class="main" id="n1" role="navigation">

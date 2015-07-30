@@ -22,36 +22,35 @@
 
 	<p>
 
+	<table border="0" cellspacing="2" cellpadding="2">
 <%		
 	for(var i=0;i<quiz.Comments.length;i++) { %>
 
-	<% 
-		// Se muestra el comentario sólo si está publicado, o si el usuario
-		// está autenticado
-		if(quiz.Comments[i].publicado || session.user) { %>
-			<p> - <%=quiz.Comments[i].texto %> 
+	<% if(quiz.Comments[i].publicado || session.user) { %>
+	<tr>
+		<td>&nbsp;</td>
+		<td>- <%=quiz.Comments[i].texto %> </td>
+		<td>
+		<% 
+			// Si el comentario no está publicado y el usuario está autenticado 
+		    if(!quiz.Comments[i].publicado && session.user) { 
+		%>
 
-		
+			<!-- Botón de publicación de comentarios para usuarios autenticados -->
+			<form method="POST" action="/quizes/<%=quiz.id %>/comments/<%=quiz.Comments[i].id%>/publish?_method=PUT">
 
-			<%
-				// Se mostrará el botón publicar, sólo si el usuario está autenticado y el 
-				// comentario no está publicado
-				if(!quiz.Comments[i].publicado && session.user) {
-			%>
+			<button type="submit" name="btnPublicar" alt="Publicar <%=quiz.Comments[i].texto%>" title="Publicar <%=quiz.Comments[i].texto%>">Publicar</button>
+			</form>
 
+		<% } %>	
+		</td>
+	</tr>	
 
-				<form method="POST" action="/quizes/<%=quiz.id %>/comments/<%=quiz.Comments[i].id%>/publish?_method=PUT">
+	<% } %>
+	<% } %>
 
-				&nbsp;<button type="submit" name="btnPublicar" alt="Publicar" title="Publicar">Publicar</button>
-				</form>
-			<%					
-				} 
-			%>
-
-			</p>
-	<%
-		} // if	
-	} // for
-  }// if
-%>
+	
+	</table>
 	</p>
+
+<% } %>	

@@ -22,15 +22,19 @@
   </head>
   <body>
       <div id="page-wrap">
+
+
+
         <header class="main" id="h1">
+         
           <% if(!session.user) { // Sino se añadido un usuario en la sesión %>
             <span class="derecha" style="text-align:right;"><a href="/login" border="0">Login</a></span>
           <%
             } else { // Se ha añadido un usuario en la sesión %>
-            <span class="derecha"><a href="/logout" border="0">Logout</a></span>  
+            <%=session.user.username%>
+            <span class="derecha"><a href="/logout" border="0">[Logout]</a></span>  
 
           <% } %>    
-
 
 
             <h1>Quiz</h1><h2> El juego de las preguntas</h2>

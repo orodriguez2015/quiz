@@ -59,4 +59,75 @@ exports.create = function(req,res){
 	}).catch(function(error){
 		next(error);
 	});
-}
+};
+
+
+
+
+/**
+ * 
+ * Función de autoload que es invocada desde /routes/index.js, cuando en la url
+ * llega un parámetro de tipo "commentId". Por tanto lo que se hace es recuperar
+ * el comentario de BBDD, almacenarlo en la requext y pasar el control al middleware
+ * que corresponda, para atender la petición
+ * @param req: Objeto con la request
+ * @param res: Objeto con la response
+ * @param next: Objeto next para pasar el control al middleware que corresponda
+ * @param commentId: Id del comentario a cargar en la request
+ */
+exports.load = function(req,res,next,commentId){
+	console.log('LLega la petición a comment_controller.load()');
+
+	// Se crea un objeto Comment sin texto pero con QuizId de la pregunta,
+	// para la que se crea el comentario
+	var comment = models.Comment.find({
+		where: {
+			id: Number(commentId)
+		}
+	}).then(function(comment) {
+		// Se ha recuperado el comentario => Se almacena en la request
+		if(comment) {
+			req.comment = comment;
+			next(); // Se pasa el control al siguiente middleware
+		} else {
+			// Se pasa el control al middleware de error definido en app.js
+			next(new Error("No existe el comentario con identificador: " + commentId));
+		}
+
+	}).catch(function(error) { 
+		// Si se producido un error, se pasa el control al middleware de error
+		next(error);
+	});		
+	
+};
+
+
+/**
+ * Atiende a la petición PUT /quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish
+ * Función de autoload que es invocada desde /routes/index.js, cuando en la url
+ * llega un parámetro de tipo "commentId". Por tanto lo que se hace es recuperar
+ * el comentario de BBDD, almacenarlo en la requext y pasar el control al middleware
+ * que corresponda, para atender la petición
+ * @param req: Objeto con la request
+ * @param res: Objeto con la response
+ * @param next: Objeto next para pasar el control al middleware que corresponda
+ * @param commentId: Id del comentario a cargar en la request
+ */
+exports.publish = function(req,res) { 
+	var comment = req.comment;
+
+	// Se indica que el comentario está publicado
+	comment.publicado = true;
+	// Se hace la actualización del objeto con el comentario, cargada en el autoload, y se 
+	// procede a actualizar su contenido en BBDD, pero sólo el campo publicado
+	comment.save({fields:['publicado']}).then(function() { 
+		// Se ha actualizado el campo publicado del comentario en BBDD.
+		// Se hace una redirección para cargar de nuevo la pregunta con sus comentarios
+		res.redirect("/quizes/" + req.params.quizId);
+		
+	}).catch(function(error){
+		// Se pasa el control al middleware de error
+		next(error);
+	});
+
+};

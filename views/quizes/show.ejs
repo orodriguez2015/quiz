@@ -22,11 +22,36 @@
 
 	<p>
 
-<%		for(var i=0;i<quiz.Comments.length;i++) { %>
+<%		
+	for(var i=0;i<quiz.Comments.length;i++) { %>
 
-		<p> - <%=quiz.Comments[i].texto %> </p>
-<% 
-		} // for
-  	}// if
+	<% 
+		// Se muestra el comentario sólo si está publicado, o si el usuario
+		// está autenticado
+		if(quiz.Comments[i].publicado || session.user) { %>
+			<p> - <%=quiz.Comments[i].texto %> 
+
+		
+
+			<%
+				// Se mostrará el botón publicar, sólo si el usuario está autenticado y el 
+				// comentario no está publicado
+				if(!quiz.Comments[i].publicado && session.user) {
+			%>
+
+
+				<form method="POST" action="/quizes/<%=quiz.id %>/comments/<%=quiz.Comments[i].id%>/publish?_method=PUT">
+
+				&nbsp;<button type="submit" name="btnPublicar" alt="Publicar" title="Publicar">Publicar</button>
+				</form>
+			<%					
+				} 
+			%>
+
+			</p>
+	<%
+		} // if	
+	} // for
+  }// if
 %>
 	</p>

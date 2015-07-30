@@ -9,9 +9,11 @@ module.exports = function(sequelize,DataTypes){
     // Al definir los atributos de la tabla QUIZ en el objeto ORM que lo representa,
     // se pueden introducir validaciones en sus campos
     return sequelize.define('Quiz',
-            { pregunta:  { type: DataTypes.STRING, 
+            { 
+              pregunta:  { type: DataTypes.STRING, 
                            validate: {notEmpty: { msg:'Falta la pregunta'}}
                          },
+
               respuesta: { type: DataTypes.STRING, 
                           validate: { notEmpty: { msg: 'Falta la respuesta'}}
 
@@ -22,6 +24,7 @@ module.exports = function(sequelize,DataTypes){
                 validate: { notEmpty: { msg: 'Falta la categoría'}}
 
               }
+
             }
     );  
 

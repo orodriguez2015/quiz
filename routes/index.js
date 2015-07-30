@@ -20,6 +20,7 @@ router.get('/author',function(req,res){
 
 // Autoload de comandos con :quizId. Permite gestionar errores
 router.param('quizId',quizController.load);
+router.param('commentId',commentController.load);
 
 // Recupera todas las preguntas para listarlas
 router.get('/quizes',quizController.index);
@@ -42,6 +43,8 @@ router.put('/quizes/:quizId(\\d+)',sessionController.loginRequired,quizControlle
 // Procesa el borrado de una determinada pregunta
 router.delete('/quizes/:quizId(\\d+)',sessionController.loginRequired,quizController.destroy);
 
+// Procesa la publicación de un comentario
+router.put('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',sessionController.loginRequired,commentController.publish);
 
 // Muestra el formulario de creación de un nuevo comentario para una determinada pregunta
 router.get('/quizes/:quizId(\\d+)/comments/new',commentController.new);

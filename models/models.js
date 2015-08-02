@@ -113,3 +113,7 @@ sequelize.sync().then(function(data) {
 }).catch(function(err){
    console.log(" ERROR AL CREAR LA BASE DE DATOS"); 
 });
+
+
+
+

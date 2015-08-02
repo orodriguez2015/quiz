@@ -13,6 +13,10 @@ var routes = require('./routes/index');
 
 var app = express();
 
+// Si la sesión ha permanecido sin actividad más de 2 minutos, 
+// se hace una redirección hacia la pantalla de login
+var tiempoMaximoInactividad = 2;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -62,8 +66,50 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', routes);
 
+// Middleware de autologout
+app.use(function(req,res,next){
+  var date = new Date();
+
+  var hora = date.getHours();
+  var minutos = date.getMinutes();
+  var segundos = date.getSeconds()
+
+
+  if(req.session.user && req.session.momentoUltimaPeticion) {
+    console.log("Comprobación de autologout");
+    // Si el usuario se ha autenticado, se recupera el momento en el que lo ha realizado
+    var momentoUltimaPeticion = req.session.momentoUltimaPeticion;
+    var momentoActual = new Date().getTime();
+    
+    var resultado = momentoActual - momentoUltimaPeticion;
+    // Se pasan los milisegundos a minutos
+    var minutosTranscurridos = resultado/60000;
+    
+    if(minutosTranscurridos>tiempoMaximoInactividad) {
+
+      console.log("========> La sesión ha caducado tras superar los " + tiempoMaximoInactividad + " de inactividad");
+      // Se borra el atributo usuario de la sesión
+      delete req.session.user;
+      // se borra el atributo momentoUltimaPeticion de la sesión
+      delete req.session.momentoUltimaPeticion;
+
+      var errores = new Array();
+      req.session.errors = [{'message': 'La sesión del usuario ha caducado tras superar los ' + tiempoMaximoInactividad + " minutos de inactividad"}];
+      res.redirect('/login');
+    } 
+
+  }
+    
+  // Se almacena el momento actual
+  req.session.momentoUltimaPeticion = new Date().getTime();
+  // Se pasa el control al siguiente Middleware
+  next();
+});
+
+
+
+app.use('/', routes);
 
     
 // catch 404 and forward to error handler. Esta función se invoca 
@@ -75,6 +121,8 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
+
+
 
 // development error handler
 // will print stacktrace
@@ -100,6 +148,7 @@ app.use(function(err, req, res, next) {
         errors:[]
     });
 });
+
 
 
 module.exports = app;

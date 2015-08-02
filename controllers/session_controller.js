@@ -63,6 +63,8 @@ exports.create = function(req,res){
 
 		// Si todo ha ido bien, se almacenan los datos del usuario en la sesión
 		req.session.user = {id: user.id,username:user.username};
+		// Se almacena en la sesión el momento en el que se ha autenticado el usuario
+		req.session.momentoUltimaPeticion= new Date().getTime();
 		// Se hace una redirección al path anterior a login
 		res.redirect(req.session.redir.toString());
 	});

@@ -4,8 +4,10 @@ var router = express.Router();
 var quizController = require('../controllers/quiz_controller');
 // Se importa el controlador de comentarios
 var commentController = require('../controllers/comment_controller');
-
+// Se importa el controlador de sesiones
 var sessionController = require('../controllers/session_controller');
+// Se importa el controlador de estadísticas
+var statisticsController = require('../controllers/statistics_controller');
 
 
 router.get('/', function(req, res) {
@@ -24,6 +26,9 @@ router.param('commentId',commentController.load);
 
 // Recupera todas las preguntas para listarlas
 router.get('/quizes',quizController.index);
+
+// Muestras las estadísticas de las preguntas y comentarios
+router.get('/quizes/statistics',statisticsController.show);
 
 // Se carga el formulario que permite dar de alta nuevas preguntas
 router.get('/quizes/new',sessionController.loginRequired,quizController.new);

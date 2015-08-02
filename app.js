@@ -94,17 +94,25 @@ app.use(function(req,res,next){
       // se borra el atributo momentoUltimaPeticion de la sesión
       delete req.session.momentoUltimaPeticion;
 
-      var errores = new Array();
-      req.session.errors = [{'message': 'La sesión del usuario ha caducado tras superar los ' + tiempoMaximoInactividad + " minutos de inactividad"}];
+      // Si se pasa la lista de errores de esta forma, se produce un error por parte 
+      // del middleware de manejo de errores, aunque la aplicación funciona
+      //req.session.errors = [{'message': 'La sesión del usuario ha caducado tras superar los ' + tiempoMaximoInactividad + " minutos de inactividad"}];
       res.redirect('/login');
-    } 
+    } else {
+       // Se almacena el momento actual
+      req.session.momentoUltimaPeticion = new Date().getTime();
+      // Se pasa el control al siguiente Middleware
+      next();
+    }
 
+  } else {
+      // Se almacena el momento actual
+      req.session.momentoUltimaPeticion = new Date().getTime();
+      // Se pasa el control al siguiente Middleware
+      next();
   }
     
-  // Se almacena el momento actual
-  req.session.momentoUltimaPeticion = new Date().getTime();
-  // Se pasa el control al siguiente Middleware
-  next();
+ 
 });
 
 
